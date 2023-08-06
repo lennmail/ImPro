@@ -4,7 +4,7 @@
 extern const int STEG_HEADER_SIZE;
 
 enum ImageType {
-	PNG, JPG, BMP, TGA
+	PNG, JPG, BMP, TGA, UNKNOWN
 };
 
 struct Image {
@@ -12,7 +12,7 @@ struct Image {
 	uint8_t *data = nullptr;
 	size_t size = 0;
 
-	int width, height, channels;
+	int width = 0, height = 0, channels = 0;
 
 	Image(const char *filename);
 	Image(int width, int height, int channels);

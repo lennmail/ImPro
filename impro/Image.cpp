@@ -77,7 +77,7 @@ ImageType Image::getImageType(const char *filename) {
 		else if(!strcmp(ext, ".tga"))
 			return TGA;
 	}
-	return PNG;
+	return UNKNOWN;
 }
 
 Image &Image::grayscale() {
