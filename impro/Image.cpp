@@ -89,8 +89,8 @@ namespace ImPro {
 		}
 		else {
 			for(int i = 0; i < size; i += channels) {
-				int g = (data[i] + data[i + 1] + data[i + 2]) / 3;
-				memset(data + i, g, 3);
+				int g = (data[i] + data[i + 1] + data[i + 2]) / channels;
+				memset(data + i, g, channels);
 			}
 		}
 		return *this;
@@ -167,9 +167,9 @@ namespace ImPro {
 		int cmp_height = fmin(height, img.height);
 		int cmp_channels = fmin(channels, img.channels);
 
-		for(uint32_t i = 0; i < cmp_height; i++) {
-			for(uint32_t j = 0; j < cmp_width; j++) {
-				for(uint32_t k = 0; k < cmp_channels; k++) {
+		for(size_t i = 0; i < cmp_height; i++) {
+			for(size_t j = 0; j < cmp_width; j++) {
+				for(size_t k = 0; k < cmp_channels; k++) {
 					data[(i * width + j) * channels + k] = BYTE_BOUND(abs(data[(i * width + j) * channels + k] - img.data[(i * width + j) * channels + k]));
 				}
 			}
@@ -185,9 +185,9 @@ namespace ImPro {
 
 		uint8_t max = 0;
 
-		for(uint32_t i = 0; i < cmp_height; i++) {
-			for(uint32_t j = 0; j < cmp_width; j++) {
-				for(uint32_t k = 0; k < cmp_channels; k++) {
+		for(size_t i = 0; i < cmp_height; i++) {
+			for(size_t j = 0; j < cmp_width; j++) {
+				for(size_t k = 0; k < cmp_channels; k++) {
 					data[(i * width + j) * channels + k] = BYTE_BOUND(abs(data[(i * width + j) * channels + k] - img.data[(i * width + j) * channels + k]));
 					max = fmax(max, data[(i * width + j) * channels + k]);
 				}
