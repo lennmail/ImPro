@@ -31,4 +31,13 @@ struct Image {
 
 	Image &encode_message(const char *message);
 	Image &decode_message(char *buffer, size_t *messageLength);
+
+	Image &diffmap(Image &img);
+	Image &diffmap_scale(Image &img, uint8_t scale);
+
+
 };
+
+inline int BYTE_BOUND(int val) {
+	return val < 0 ? 0 : (val > 255 ? 255 : val);
+}

@@ -158,3 +158,47 @@ Image &Image::decode_message(char *buffer, size_t *messageLength) {
 
 	return *this;
 }
+
+Image &Image::diffmap(Image &img) {
+
+	int cmp_width = fmin(width, img.width);
+	int cmp_height = fmin(height, img.height);
+	int cmp_channels = fmin(channels, img.channels);
+
+	for(uint32_t i = 0; i < cmp_height; i++) {
+		for(uint32_t j = 0; j < cmp_width; j++) {
+			for(uint32_t k = 0; k < cmp_channels; k++) {
+				data[(i * width + j) * channels + k] = BYTE_BOUND(abs(data[(i * width + j) * channels + k] - img.data[(i * width + j) * channels + k]));
+			}
+		}
+	}
+	return *this;
+}
+
+Image &Image::diffmap_scale(Image &img, uint8_t scale = 0) {
+
+	int cmp_width = fmin(width, img.width);
+	int cmp_height = fmin(height, img.height);
+	int cmp_channels = fmin(channels, img.channels);
+
+	uint8_t max = 0;
+
+	for(uint32_t i = 0; i < cmp_height; i++) {
+		for(uint32_t j = 0; j < cmp_width; j++) {
+			for(uint32_t k = 0; k < cmp_channels; k++) {
+				data[(i * width + j) * channels + k] = BYTE_BOUND(abs(data[(i * width + j) * channels + k] - img.data[(i * width + j) * channels + k]));
+				max = fmax(max, data[(i * width + j) * channels + k]);
+			}
+		}
+	}
+
+	/*Expression rescales range between 0 and largest to range between 0 and 255. 
+	Inner fmax is to make sure no scaling over 255 is possible. 
+	Outer fmax is to prevent passing a 0 or a negative number.*/
+	scale = 255 / fmax(1, fmax(scale, max));
+	for(uint32_t i = 0; i < size; i++)
+		data[i] *= scale;
+
+	return *this;
+}
+
