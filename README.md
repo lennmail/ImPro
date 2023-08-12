@@ -12,3 +12,4 @@ The library currently consists of an image class which defines the following mem
 + **grayscale_luminescence**: converts an image to greyscale as long as the image has 3 channels. Retains the natural luminescence of the image. The RGB values are based on a weighted linear combination of previous RGB values. Coefficients chosen according to [this](https://en.wikipedia.org/wiki/Grayscale) site.
 + **color_mask**: manipulates RGB values according to specified red, green, and blue input values.
 
+...
