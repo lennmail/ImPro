@@ -3,41 +3,45 @@
 
 extern const int STEG_HEADER_SIZE;
 
-enum ImageType {
-	PNG, JPG, BMP, TGA, UNKNOWN
-};
+namespace ImPro {
 
-struct Image {
+	enum ImageType {
+		PNG, JPG, BMP, TGA, UNKNOWN
+	};
 
-	uint8_t *data = nullptr;
-	size_t size = 0;
+	struct Image {
 
-	int width = 0, height = 0, channels = 0;
+		uint8_t *data = nullptr;
+		size_t size = 0;
 
-	Image(const char *filename);
-	Image(int width, int height, int channels);
-	Image(const Image &img);
-	~Image();
+		int width = 0, height = 0, channels = 0;
 
-	bool read(const char *filename);
-	bool write(const char *filename);
+		Image(const char *filename);
+		Image(int width, int height, int channels);
+		Image(const Image &img);
+		~Image();
 
-	ImageType getImageType(const char *filename);
+		bool read(const char *filename);
+		bool write(const char *filename);
 
-	Image &grayscale();
-	Image &grayscale_luminescence();
+		ImageType getImageType(const char *filename);
 
-	Image &color_mask(float red, float green, float blue);
+		Image &grayscale();
+		Image &grayscale_luminescence();
 
-	Image &encode_message(const char *message);
-	Image &decode_message(char *buffer, size_t *messageLength);
+		Image &color_mask(float red, float green, float blue);
 
-	Image &diffmap(Image &img);
-	Image &diffmap_scale(Image &img, uint8_t scale);
+		Image &encode_message(const char *message);
+		Image &decode_message(char *buffer, size_t *messageLength);
+
+		Image &diffmap(Image &img);
+		Image &diffmap_scale(Image &img, uint8_t scale);
 
 
-};
+	};
 
-inline int BYTE_BOUND(int val) {
-	return val < 0 ? 0 : (val > 255 ? 255 : val);
+	inline int BYTE_BOUND(int val) {
+		return val < 0 ? 0 : (val > 255 ? 255 : val);
+	}
+
 }
